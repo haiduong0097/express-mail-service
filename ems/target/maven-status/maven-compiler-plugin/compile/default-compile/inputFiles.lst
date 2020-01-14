@@ -1,2 +1,6 @@
-D:\Users\nguyenhaiduong\eclipse-workspace\ems\src\ems\StudentDto.java
-D:\Users\nguyenhaiduong\eclipse-workspace\ems\src\ems\StudentBean.java
+C:\Users\nguyenhaiduong\git\express-mail-service\ems\src\ems\managerBean\StudentBean.java
+C:\Users\nguyenhaiduong\git\express-mail-service\ems\src\ems\dao\StudentDao.java
+C:\Users\nguyenhaiduong\git\express-mail-service\ems\src\ems\entity\StudentEntity.java
+C:\Users\nguyenhaiduong\git\express-mail-service\ems\src\ems\dao\HibernateUtil.java
+C:\Users\nguyenhaiduong\git\express-mail-service\ems\src\ems\service\StudentService.java
+C:\Users\nguyenhaiduong\git\express-mail-service\ems\src\ems\dto\StudentDto.java
