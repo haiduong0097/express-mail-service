@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -11,24 +12,155 @@
         content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Express Mail Service</title>
     <h:outputStylesheet library="css" name="bootstrap.min.css" />
+
 </h:head>
+
+<f:metadata>
+</f:metadata>
+
+
 <h:body>
+    <ui:param name="studentDto" value="#{studentBean.studentDto}"></ui:param>
+    <h1>Project JSF!!!</h1>
     <h:form>
+        <p:panel id="panel" header="Insert Form"
+            style="margin-bottom:10px;">
 
-        <h1>Project JSF!!!</h1>
+            <p:messages id="messages" showDetail="false" closable="true">
+                <p:autoUpdate />
+            </p:messages>
 
-        <p:inputText id="name-id" value="#{studentBean.studentDto.name}"
-            class="form-control" />
 
-        <p:button outcome="productDetail" value="Bookmark"
-            icon="pi pi-star" style="margin-right:20px;">
-            <f:param name="productId" value="10" />
-        </p:button>
 
-        <h:commandButton value="Submit"
-            action="#{studentBean.logicClick}" />
+            <h:panelGrid id="grid" columns="3" cellpadding="5">
+                <p:outputLabel for="default"
+                    value="Inssert new student:" />
+                <p:inputText id="default" required="true"
+                    value="#{studentBean.studentDto.name}" />
+                <p:message for="default" display="text" />
+            </h:panelGrid>
 
-        <p:outputLabel value="Username" />
+            <p:commandButton id="submitButton" value="Insert"
+                action="#{studentBean.logicClick}"
+                style="margin-right:20px;" ajax="false" update="grid" />
+
+        </p:panel>
     </h:form>
+    <p:separator />
+    <h:form id="form">
+        <p:panel id="panel" header="Insert Form"
+            style="margin-bottom:10px;">
+
+            <p:messages id="messages" showDetail="false" closable="true">
+                <p:autoUpdate />
+            </p:messages>
+
+            <p:growl id="msgs" showDetail="true" />
+
+            <p:commandButton id="submitButton" value="Search"
+                action="#{studentBean.searchClick}"
+                style="margin-right:20px;" ajax="false" update="grid" />
+
+            <p:dataTable var="row" rows="5" editable="true"
+                style="margin-bottom:20px"
+                value="#{studentBean.studentDto.studentList}"
+                paginator="true"
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15">
+
+                <f:facet name="header">
+                     Student List
+                 </f:facet>
+
+                <p:ajax event="rowEdit"
+                    listener="#{studentBean.onRowEdit}"
+                    update=":form:msgs" />
+                <p:ajax event="rowEditCancel"
+                    listener="#{studentBean.onRowCancel}"
+                    update=":form:msgs" />
+
+                <p:column headerText="studentId">
+
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{row.studentId}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="modelInput"
+                                value="#{row.studentId}"
+                                style="width:100%" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="name">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{row.name}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{row.name}"
+                                style="width:100%" label="Year" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:35px">
+                    <p:rowEditor />
+                </p:column>
+
+
+                <f:facet name="paginatorTopLeft">
+                    <p:commandButton type="button" icon="pi pi-refresh" />
+                </f:facet>
+
+                <f:facet name="paginatorBottomRight">
+                    <p:commandButton type="button"
+                        icon="pi pi-cloud-upload" />
+                </f:facet>
+
+            </p:dataTable>
+
+            <p:dialog header="Car Info" widgetVar="carDialog"
+                modal="true" showEffect="fade" hideEffect="fade"
+                resizable="false">
+                <p:outputPanel id="carDetail" style="text-align:center;">
+                    <p:panelGrid columns="2"
+                        rendered="#{not empty dtSelectionView.selectedCar}"
+                        columnClasses="label,value">
+                        <f:facet name="header">
+                            <p:graphicImage
+                                name="demo/images/car/#{dtSelectionView.selectedCar.brand}-big.gif" />
+                        </f:facet>
+
+                        <h:outputText value="Id:" />
+                        <h:outputText
+                            value="#{dtSelectionView.selectedCar.id}" />
+
+                        <h:outputText value="Year" />
+                        <h:outputText
+                            value="#{dtSelectionView.selectedCar.year}" />
+
+                        <h:outputText value="Color:" />
+                        <h:outputText
+                            value="#{dtSelectionView.selectedCar.color}"
+                            style="color:#{dtSelectionView.selectedCar.color}" />
+
+                        <h:outputText value="Price" />
+                        <h:outputText
+                            value="$#{dtSelectionView.selectedCar.price}" />
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+        </p:panel>
+    </h:form>
+
+    <script type="text/javascript"
+        src="https://maps.google.com/maps/api/js?sensor=true"></script>
+    <p:gmap center="41.381542, 2.122893" zoom="15" type="HYBRID"
+        style="width:100%;height:400px" />
+
+
+
 </h:body>
 </html>
